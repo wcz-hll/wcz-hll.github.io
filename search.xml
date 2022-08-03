@@ -2,8 +2,13 @@
 <search>
   <entry>
     <title>Git</title>
-    <url>/2022/07/30/Git/</url>
-    <content><![CDATA[<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><p>版本控制工具</p>
+    <url>/2022/08/02/Git/</url>
+    <content><![CDATA[<blockquote>
+<p>git的一些基础操作</p>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><p>版本控制工具</p>
 <p>镜像下载地址：<a href="http://npm.taobao.org/mirrors/git-for-windows/">http://npm.taobao.org/mirrors/git-for-windows/</a></p>
 <p>平时一定要多使用这些基础的命令！</p>
 <ul>
@@ -54,6 +59,17 @@
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo-next优化</title>
+    <url>/2022/08/03/hexo-next%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo next</tag>
       </tags>
   </entry>
 </search>
