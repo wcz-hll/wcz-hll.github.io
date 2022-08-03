@@ -22,26 +22,26 @@
 
   <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:url" content="http://example.com/tags/git/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="WCZ">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/tags/git/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
+    isHome : false,
     isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Hexo</title>
+  <title>标签: git | Hexo</title>
   
 
 
@@ -177,126 +177,50 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content tag">
             
-      
+
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/30/Git/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="WCZ">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/30/Git/" class="post-title-link" itemprop="url">Git</a>
+  
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        <h2 class="collection-header">git
+          <small>标签</small>
         </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-30 11:09:15" itemprop="dateCreated datePublished" datetime="2022-07-30T11:09:15+08:00">2022-07-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-03 10:28:46" itemprop="dateModified" datetime="2022-08-03T10:28:46+08:00">2022-08-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+      </div>
 
       
-          <h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><p>版本控制工具</p>
-<p>镜像下载地址：<a target="_blank" rel="noopener" href="http://npm.taobao.org/mirrors/git-for-windows/">http://npm.taobao.org/mirrors/git-for-windows/</a></p>
-<p>平时一定要多使用这些基础的命令！</p>
-<ul>
-<li><p>cd : 改变目录。</p>
-</li>
-<li><p>cd . . 回退到上一个目录，直接cd进入默认目录</p>
-</li>
-<li><p>pwd : 显示当前所在的目录路径。</p>
-</li>
-<li><p>ls(ll):  都是列出当前目录中的所有文件，只不过ll(两个ll)列出的内容更为详细。</p>
-</li>
-<li><p>touch : 新建一个文件 如 touch index.js 就会在当前目录下新建一个index.js文件。</p>
-</li>
-<li><p>rm:  删除一个文件, rm index.js 就会把index.js文件删除。</p>
-</li>
-<li><p>mkdir:  新建一个目录,就是新建一个文件夹。</p>
-</li>
-<li><p>rm -r :  删除一个文件夹, rm -r src 删除src目录</p>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf / 切勿在Linux中尝试！删除电脑中全部文件！</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>mv 移动文件, mv index.html src index.html 是我们要移动的文件, src 是目标文件夹,当然, 这样写,必须保证文件和目标文件夹在同一目录下。</p>
-</li>
-<li><p>reset 重新初始化终端&#x2F;清屏。</p>
-</li>
-<li><p>clear 清屏。</p>
-</li>
-<li><p>history 查看命令历史。</p>
-</li>
-<li><p>help 帮助。</p>
-</li>
-<li><p>exit 退出。</p>
-</li>
-<li><p>#表示注释</p>
-</li>
-</ul>
-<h2 id="git实操"><a href="#git实操" class="headerlink" title="git实操"></a>git实操</h2><ol>
-<li>在项目文件夹clone git 仓库</li>
-<li>git add . 将所有文件添加到暂存区</li>
-<li>git commit -m “修改的一些信息”</li>
-<li>git push 提交到远程仓库</li>
-</ol>
-
-      
+    <div class="collection-year">
+      <span class="collection-header">2022</span>
     </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2022-07-30T11:09:15+08:00"
+              content="2022-07-30">
+          07-30
+        </time>
+      </div>
+
+      <div class="post-title">
+          <a class="post-title-link" href="/2022/07/30/Git/" itemprop="url">
+            <span itemprop="name">Git</span>
+          </a>
+      </div>
+
+    </header>
+  </article>
+
+    </div>
+  </div>
+  
+  
+  
 
   
 
