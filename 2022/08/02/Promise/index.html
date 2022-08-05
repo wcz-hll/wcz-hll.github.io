@@ -20,20 +20,23 @@
     var CONFIG = {"hostname":"wcz-hll.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="git的一些基础操作">
+  <meta name="description" content="Promise学习，以及手写Promise">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git">
-<meta property="og:url" content="http://wcz-hll.github.io/2022/08/02/Git/index.html">
+<meta property="og:title" content="Promise">
+<meta property="og:url" content="http://wcz-hll.github.io/2022/08/02/Promise/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="git的一些基础操作">
+<meta property="og:description" content="Promise学习，以及手写Promise">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://vipkshttp1.wiz.cn/ks/share/resources/49c30824-dcdf-4bd0-af2a-708f490b44a1/92b8cbfb-a474-4859-943b-6048e9dc66f6/index_files/9b2b980e2959c4f996cafddb03fa5d4d.png">
+<meta property="og:image" content="http://vipkshttp1.wiz.cn/ks/share/resources/49c30824-dcdf-4bd0-af2a-708f490b44a1/92b8cbfb-a474-4859-943b-6048e9dc66f6/index_files/60b9ff398449db2dcfef9197e2187ae6.png">
 <meta property="article:published_time" content="2022-08-02T05:12:45.000Z">
-<meta property="article:modified_time" content="2022-08-03T08:16:35.919Z">
+<meta property="article:modified_time" content="2022-08-05T10:04:23.711Z">
 <meta property="article:author" content="WCZ">
-<meta property="article:tag" content="git">
+<meta property="article:tag" content="Promise">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://vipkshttp1.wiz.cn/ks/share/resources/49c30824-dcdf-4bd0-af2a-708f490b44a1/92b8cbfb-a474-4859-943b-6048e9dc66f6/index_files/9b2b980e2959c4f996cafddb03fa5d4d.png">
 
-<link rel="canonical" href="http://wcz-hll.github.io/2022/08/02/Git/">
+<link rel="canonical" href="http://wcz-hll.github.io/2022/08/02/Promise/">
 
 
 <script id="page-configurations">
@@ -46,7 +49,7 @@
   };
 </script>
 
-  <title>Git | Hexo</title>
+  <title>Promise | Hexo</title>
   
 
 
@@ -185,7 +188,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://wcz-hll.github.io/2022/08/02/Git/">
+    <link itemprop="mainEntityOfPage" href="http://wcz-hll.github.io/2022/08/02/Promise/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/tx.jpeg">
@@ -198,7 +201,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Git
+          Promise
         </h1>
 
         <div class="post-meta">
@@ -215,7 +218,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-03 16:16:35" itemprop="dateModified" datetime="2022-08-03T16:16:35+08:00">2022-08-03</time>
+                <time title="修改时间：2022-08-05 18:04:23" itemprop="dateModified" datetime="2022-08-05T18:04:23+08:00">2022-08-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -223,7 +226,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a>
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
                 </span>
             </span>
 
@@ -239,55 +242,114 @@
 
       
         <blockquote>
-<p>git的一些基础操作</p>
+<p>Promise学习，以及手写Promise</p>
 </blockquote>
 <span id="more"></span>
 
-<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><p>版本控制工具</p>
-<p>镜像下载地址：<a target="_blank" rel="noopener" href="http://npm.taobao.org/mirrors/git-for-windows/">http://npm.taobao.org/mirrors/git-for-windows/</a></p>
-<p>平时一定要多使用这些基础的命令！</p>
-<ul>
-<li><p>cd : 改变目录。</p>
+<h1 id="Promise深入-自定义Promise"><a href="#Promise深入-自定义Promise" class="headerlink" title="Promise深入 + 自定义Promise"></a>Promise深入 + 自定义Promise</h1><h2 id="1-准备"><a href="#1-准备" class="headerlink" title="1. 准备"></a>1. 准备</h2><h3 id="1-1-函数对象与实例对象"><a href="#1-1-函数对象与实例对象" class="headerlink" title="1.1. 函数对象与实例对象"></a>1.1. 函数对象与实例对象</h3><pre><code>1. 函数对象: 将函数作为对象使用时, 简称为函数对象
+2. 实例对象: new 函数产生的对象, 简称为对象
+</code></pre>
+<h3 id="1-2-回调函数的分类"><a href="#1-2-回调函数的分类" class="headerlink" title="1.2. 回调函数的分类"></a>1.2. 回调函数的分类</h3><pre><code>1. 同步回调: 
+    理解: 立即执行, 完全执行完了才结束, 不会放入回调队列中
+    例子: 数组遍历相关的回调函数 / Promise的excutor函数
+2. 异步回调: 
+    理解: 不会立即执行, 会放入回调队列中将来执行
+    例子: 定时器回调 / ajax回调 / Promise的成功|失败的回调
+</code></pre>
+<h3 id="1-3-JS中的Error"><a href="#1-3-JS中的Error" class="headerlink" title="1.3. JS中的Error"></a>1.3. JS中的Error</h3><pre><code>1. 错误的类型
+    Error: 所有错误的父类型
+    ReferenceError: 引用的变量不存在
+    TypeError: 数据类型不正确的错误
+    RangeError: 数据值不在其所允许的范围内
+    SyntaxError: 语法错误
+2. 错误处理
+    捕获错误: try ... catch
+    抛出错误: throw error
+3. 错误对象
+    message属性: 错误相关信息
+    stack属性: 函数调用栈记录信息
+</code></pre>
+<h2 id="2-Promise的理解和使用"><a href="#2-Promise的理解和使用" class="headerlink" title="2. Promise的理解和使用"></a>2. Promise的理解和使用</h2><h3 id="2-1-Promise是什么"><a href="#2-1-Promise是什么" class="headerlink" title="2.1. Promise是什么?"></a>2.1. Promise是什么?</h3><pre><code>1.抽象表达: 
+    Promise是JS中进行异步编程的新的解决方案(旧的是谁?)
+2.具体表达:
+    从语法上来说: Promise是一个构造函数
+    从功能上来说: promise对象用来封装一个异步操作并可以获取其结果
+3. promise的状态改变(只有2种, 只能改变一次)
+    pending变为resolved
+    pending变为rejected
+4. promise的基本流程
+</code></pre>
+<p><img src="http://vipkshttp1.wiz.cn/ks/share/resources/49c30824-dcdf-4bd0-af2a-708f490b44a1/92b8cbfb-a474-4859-943b-6048e9dc66f6/index_files/9b2b980e2959c4f996cafddb03fa5d4d.png" alt="promise基本流程"></p>
+<h3 id="2-2-为什么要用Promise"><a href="#2-2-为什么要用Promise" class="headerlink" title="2.2. 为什么要用Promise?"></a>2.2. 为什么要用Promise?</h3><ol>
+<li>指定回调函数的方式更加灵活: 可以在请求发出甚至结束后指定回调函数<ul>
+<li>使用纯回调函数：<ul>
+<li>在执行异步操作之前就必须指定回调函数；</li>
+</ul>
 </li>
-<li><p>cd . . 回退到上一个目录，直接cd进入默认目录</p>
-</li>
-<li><p>pwd : 显示当前所在的目录路径。</p>
-</li>
-<li><p>ls(ll):  都是列出当前目录中的所有文件，只不过ll(两个ll)列出的内容更为详细。</p>
-</li>
-<li><p>touch : 新建一个文件 如 touch index.js 就会在当前目录下新建一个index.js文件。</p>
-</li>
-<li><p>rm:  删除一个文件, rm index.js 就会把index.js文件删除。</p>
-</li>
-<li><p>mkdir:  新建一个目录,就是新建一个文件夹。</p>
-</li>
-<li><p>rm -r :  删除一个文件夹, rm -r src 删除src目录</p>
+<li>使用promise：<ul>
+<li>可以随时去绑定回调函数</li>
+</ul>
 </li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf / 切勿在Linux中尝试！删除电脑中全部文件！</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>mv 移动文件, mv index.html src index.html 是我们要移动的文件, src 是目标文件夹,当然, 这样写,必须保证文件和目标文件夹在同一目录下。</p>
 </li>
-<li><p>reset 重新初始化终端&#x2F;清屏。</p>
+<li>支持链式调用, 可以解决回调地狱问题（不便于阅读、不便于处理异常）<ul>
+<li>使用纯回调函数：<ul>
+<li>当回调函数嵌套调用，外部回调函数异步执行的结果时嵌套的回调函数执行的条件时，回产生回调地狱的问题</li>
+</ul>
 </li>
-<li><p>clear 清屏。</p>
-</li>
-<li><p>history 查看命令历史。</p>
-</li>
-<li><p>help 帮助。</p>
-</li>
-<li><p>exit 退出。</p>
-</li>
-<li><p>#表示注释</p>
+<li>使用promise：<ul>
+<li>promise支持链式调用，可以通过cath()方法处理异常</li>
+</ul>
 </li>
 </ul>
-<h2 id="git实操"><a href="#git实操" class="headerlink" title="git实操"></a>git实操</h2><ol>
-<li>在项目文件夹clone git 仓库</li>
-<li>git add . 将所有文件添加到暂存区</li>
-<li>git commit -m “修改的一些信息”</li>
-<li>git push 提交到远程仓库</li>
+</li>
 </ol>
+<h3 id="2-3-如何使用Promise"><a href="#2-3-如何使用Promise" class="headerlink" title="2.3. 如何使用Promise?"></a>2.3. 如何使用Promise?</h3><pre><code>1. 主要API
+    Promise构造函数: Promise (excutor) &#123;&#125;
+    Promise.prototype.then方法: (onResolved, onRejected) =&gt; &#123;&#125;
+    Promise.prototype.catch方法: (onRejected) =&gt; &#123;&#125;
+    Promise.resolve方法: (value) =&gt; &#123;&#125;
+    Promise.reject方法: (reason) =&gt; &#123;&#125;
+    Promise.all方法: (promises) =&gt; &#123;&#125;
+    Promise.race方法: (promises) =&gt; &#123;&#125;
+2. 几个重要问题
+    如何改变promise的状态?
+    一个promise指定多个成功/失败回调函数, 都会调用吗?
+    promise.then()返回的新promise的结果状态由什么决定?
+    改变promise状态和指定回调函数谁先谁后?
+    promise如何串连多个操作任务?
+    promise异常传(穿)透?
+    中断promise链
+</code></pre>
+<h2 id="3-自定义Promise"><a href="#3-自定义Promise" class="headerlink" title="3. 自定义Promise"></a>3. 自定义Promise</h2><ol>
+<li>定义整体结构（Promise的主要API）</li>
+<li>Promise构造函数的实现</li>
+<li>promise.then()&#x2F;catch()的实现</li>
+<li>Promise.resolve()&#x2F;reject()的实现</li>
+<li>Promise.all&#x2F;race()的实</li>
+<li>Promise.resolveDelay()&#x2F;rejectDelay()的实现</li>
+<li>ES6 class版本</li>
+</ol>
+<h2 id="4-async与await"><a href="#4-async与await" class="headerlink" title="4. async与await"></a>4. async与await</h2><pre><code>1. async 函数
+    函数的返回值为promise对象
+    promise对象的结果由async函数执行的返回值决定
+   
+2. await 表达式
+    await右侧的表达式一般为promise对象, 但也可以是其它的值
+    如果表达式是promise对象, await返回的是promise成功的值
+    如果表达式是其它值, 直接将此值作为await的返回值
+
+3. 注意:
+    await必须写在async函数中, 但async函数中可以没有await
+    如果await的promise失败了, 就会抛出异常, 需要通过try...catch来捕获处理
+</code></pre>
+<h2 id="5-JS异步之宏队列与微队列"><a href="#5-JS异步之宏队列与微队列" class="headerlink" title="5. JS异步之宏队列与微队列"></a>5. JS异步之宏队列与微队列</h2><p><img src="http://vipkshttp1.wiz.cn/ks/share/resources/49c30824-dcdf-4bd0-af2a-708f490b44a1/92b8cbfb-a474-4859-943b-6048e9dc66f6/index_files/60b9ff398449db2dcfef9197e2187ae6.png" alt="宏队列与微队列"></p>
+<pre><code>1. 宏列队: 用来保存待执行的宏任务(回调), 比如: 定时器回调/DOM事件回调/ajax回调
+2. 微列队: 用来保存待执行的微任务(回调), 比如: promise的回调/MutationObserver的回调
+3. JS执行时会区别这2个队列
+    JS引擎首先必须先执行所有的初始化同步任务代码
+    每次准备取出第一个宏任务执行前, 都要将所有的微任务一个一个取出来执行
+</code></pre>
 
     </div>
 
@@ -297,7 +359,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/git/" rel="tag"># git</a>
+              <a href="/tags/Promise/" rel="tag"># Promise</a>
           </div>
 
         
@@ -305,13 +367,10 @@
 
         
     <div class="post-nav">
+      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2022/08/02/Node/" rel="prev" title="Node.js">
-      <i class="fa fa-chevron-left"></i> Node.js
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/08/02/Axios/" rel="next" title="Axios">
-      Axios <i class="fa fa-chevron-right"></i>
+    <a href="/2022/08/02/Node/" rel="next" title="Node.js">
+      Node.js <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -371,7 +430,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">1.</span> <span class="nav-text">Git</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#git%E5%AE%9E%E6%93%8D"><span class="nav-number">1.1.</span> <span class="nav-text">git实操</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Promise%E6%B7%B1%E5%85%A5-%E8%87%AA%E5%AE%9A%E4%B9%89Promise"><span class="nav-number">1.</span> <span class="nav-text">Promise深入 + 自定义Promise</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%87%86%E5%A4%87"><span class="nav-number">1.1.</span> <span class="nav-text">1. 准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%87%BD%E6%95%B0%E5%AF%B9%E8%B1%A1%E4%B8%8E%E5%AE%9E%E4%BE%8B%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1. 函数对象与实例对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2. 回调函数的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-JS%E4%B8%AD%E7%9A%84Error"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3. JS中的Error</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Promise%E7%9A%84%E7%90%86%E8%A7%A3%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">2. Promise的理解和使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Promise%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1. Promise是什么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8Promise"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2. 为什么要用Promise?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Promise"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3. 如何使用Promise?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%87%AA%E5%AE%9A%E4%B9%89Promise"><span class="nav-number">1.3.</span> <span class="nav-text">3. 自定义Promise</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-async%E4%B8%8Eawait"><span class="nav-number">1.4.</span> <span class="nav-text">4. async与await</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-JS%E5%BC%82%E6%AD%A5%E4%B9%8B%E5%AE%8F%E9%98%9F%E5%88%97%E4%B8%8E%E5%BE%AE%E9%98%9F%E5%88%97"><span class="nav-number">1.5.</span> <span class="nav-text">5. JS异步之宏队列与微队列</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
