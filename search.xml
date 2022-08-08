@@ -1,177 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Axios</title>
-    <url>/2022/08/02/Axios/</url>
-    <content><![CDATA[<blockquote>
-<p>git的一些基础操作</p>
-</blockquote>
-<span id="more"></span>
-
-<h1 id="axios从入门到源码分析"><a href="#axios从入门到源码分析" class="headerlink" title="axios从入门到源码分析"></a>axios从入门到源码分析</h1><h2 id="1-前后台交互的基本过程"><a href="#1-前后台交互的基本过程" class="headerlink" title="1. 前后台交互的基本过程"></a>1. 前后台交互的基本过程</h2><pre><code>1. 前后应用从浏览器端向服务器发送HTTP请求(请求报文)
-2. 后台服务器接收到请求后, 调度服务器应用处理请求, 向浏览器端返回HTTP响应(响应报文)
-3. 浏览器端接收到响应, 解析显示响应体/调用监视回调
-</code></pre>
-<h2 id="2-HTTP请求报文"><a href="#2-HTTP请求报文" class="headerlink" title="2. HTTP请求报文"></a>2. HTTP请求报文</h2><pre><code>1. 请求行: 请求方式/url
-2. 多个请求头: 一个请求头由name:value组成, 如Host/Cookie/Content-Type头
-3. 请求体
-</code></pre>
-<h2 id="3-HTTP响应报文"><a href="#3-HTTP响应报文" class="headerlink" title="3. HTTP响应报文"></a>3. HTTP响应报文</h2><pre><code>1. 响应行: 响应状态码/对应的文本
-2. 多个响应头: 如 Content-Type / Set-Cookie 头
-3. 响应体
-</code></pre>
-<h2 id="4-post请求体文本参数格式"><a href="#4-post请求体文本参数格式" class="headerlink" title="4. post请求体文本参数格式"></a>4. post请求体文本参数格式</h2><pre><code>1. Content-Type: application/x-www-form-urlencoded;charset=utf-8
-    用于键值对参数，参数的键值用=连接, 参数之间用&amp;连接
-    例如: name=%E5%B0%8F%E6%98%8E&amp;age=12
-2. Content-Type: application/json;charset=utf-8
-    用于json字符串参数
-    例如: &#123;&quot;name&quot;: &quot;%E5%B0%8F%E6%98%8E&quot;, &quot;age&quot;: 12&#125;
-</code></pre>
-<h2 id="5-常见响应状态码"><a href="#5-常见响应状态码" class="headerlink" title="5. 常见响应状态码"></a>5. 常见响应状态码</h2><pre><code>200	OK                     请求成功。一般用于GET与POST请求
-201 Created                已创建。成功请求并创建了新的资源
-401 Unauthorized           未授权/请求要求用户的身份认证
-404 Not Found              服务器无法根据客户端的请求找到资源
-500 Internal Server Error  服务器内部错误，无法完成请求
-</code></pre>
-<h2 id="6-不同类型的请求及其作用"><a href="#6-不同类型的请求及其作用" class="headerlink" title="6. 不同类型的请求及其作用:"></a>6. 不同类型的请求及其作用:</h2><pre><code>1. GET: 从服务器端读取数据
-2. POST: 向服务器端添加新数据
-3. PUT: 更新服务器端已经数据
-4. DELETE: 删除服务器端数据
-</code></pre>
-<h2 id="7-API的分类"><a href="#7-API的分类" class="headerlink" title="7. API的分类"></a>7. API的分类</h2><pre><code>1. REST API:    restful
-    发送请求进行CRUD哪个操作由请求方式来决定
-    同一个请求路径可以进行多个操作
-    请求方式会用到GET/POST/PUT/DELETE
-2. 非REST API:   restless
-    请求方式不决定请求的CRUD操作
-    一个请求路径只对应一个操作
-    一般只有GET/POST
-测试: 可以使用json-server快速搭建模拟的rest api 接口
-</code></pre>
-<h2 id="8-理解XHR"><a href="#8-理解XHR" class="headerlink" title="8. 理解XHR"></a>8. 理解XHR</h2><pre><code>使用XMLHttpRequest (XHR)对象可以与服务器交互, 也就是发送ajax请求
-前端可以获取到数据，而无需让整个的页面刷新。
-这使得Web页面可以只更新页面的局部，而不影响用户的操作。
-</code></pre>
-<h2 id="9-XHR的基本使用"><a href="#9-XHR的基本使用" class="headerlink" title="9. XHR的基本使用"></a>9. XHR的基本使用</h2><ol>
-<li><p>步骤：</p>
-<p>（1）创建xhr对象</p>
-<p>（2）调用xhr.open()函数</p>
-<p>（3）设置Content-Type属性</p>
-<p>（4）调用xhr.send()函数</p>
-<p>（5）监听xhr.onreadStatechange()事件</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> xhr=<span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>()</span><br><span class="line"> </span><br><span class="line">xhr.<span class="title function_">open</span>(<span class="string">&#x27;POST&#x27;</span>,<span class="string">&#x27;http://maowei.api.tp6:8000/user&#x27;</span>)</span><br><span class="line"></span><br><span class="line">xhr.<span class="title function_">setRequestHeader</span>(<span class="string">&#x27;Content-Type&#x27;</span>,<span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span>)</span><br><span class="line"> </span><br><span class="line">xhr.<span class="title function_">send</span>(<span class="string">&#x27;id=2&#x27;</span>)</span><br><span class="line"> </span><br><span class="line">xhr.<span class="property">onreadystatechange</span>=<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">if</span> (xhr.<span class="property">readyState</span>===<span class="number">4</span> || xhr.<span class="property">status</span>===<span class="number">200</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(xhr.<span class="property">responseText</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="10-区别ajax请求与一般HTTP请求"><a href="#10-区别ajax请求与一般HTTP请求" class="headerlink" title="10. 区别ajax请求与一般HTTP请求"></a>10. 区别ajax请求与一般HTTP请求</h2><pre><code>ajax请求是一种特别的http请求: 只有通过XHR/fetch发送的是ajax请求, 其它都是一般HTTP请求
-对服务器端来说, 没有任何区别, 区别在浏览器端
-浏览器端发请求: 只有XHR或fetch发出的才是ajax请求, 其它所有的都是非ajax请求
-浏览器端接收到响应
-    一般请求: 浏览器一般会直接显示响应体数据, 也就是我们常说的刷新/跳转页面
-    ajax请求: 浏览器不会对界面进行任何更新操作, 只是调用监视的回调函数并传入响应相关数据
-</code></pre>
-<h2 id="11-使用XHR封装一个发ajax请求的通用函数"><a href="#11-使用XHR封装一个发ajax请求的通用函数" class="headerlink" title="11. 使用XHR封装一个发ajax请求的通用函数"></a>11. 使用XHR封装一个发ajax请求的通用函数</h2><pre><code>函数的返回值为promise, 成功的结果为response, 异常的结果为error
-能处理多种类型的请求: GET/POST/PUT/DELETE
-函数的参数为一个配置对象: url/method/params/data
-响应json数据自动解析为了js
-</code></pre>
-<h2 id="12-axios的特点"><a href="#12-axios的特点" class="headerlink" title="12. axios的特点"></a>12. axios的特点</h2><pre><code>基于promise的封装XHR的异步ajax请求库
-浏览器端/node端都可以使用
-支持请求／响应拦截器
-支持请求取消
-请求/响应数据转换
-批量发送多个请求
-</code></pre>
-<h2 id="13-axios常用语法"><a href="#13-axios常用语法" class="headerlink" title="13. axios常用语法"></a>13. axios常用语法</h2><pre><code>axios(config): 通用/最本质的发任意类型请求的方式
-axios(url[, config]): 可以只指定url发get请求
-axios.request(config): 等同于axios(config)
-axios.get(url[, config]): 发get请求
-axios.delete(url[, config]): 发delete请求
-axios.post(url[, data, config]): 发post请求
-axios.put(url[, data, config]): 发put请求
-
-axios.defaults.xxx: 请求的默认全局配置
-axios.interceptors.request.use(): 添加请求拦截器
-axios.interceptors.response.use(): 添加响应拦截器
-
-axios.create([config]): 创建一个新的axios(它没有下面的功能)
-
-axios.Cancel(): 用于创建取消请求的错误对象
-axios.CancelToken(): 用于创建取消请求的token对象
-axios.isCancel(): 是否是一个取消请求的错误
-axios.all(promises): 用于批量执行多个异步请求
-axios.spread(): 用来指定接收所有成功数据的回调函数的方法
-</code></pre>
-<h2 id="14-源码难点与流程分析"><a href="#14-源码难点与流程分析" class="headerlink" title="14. 源码难点与流程分析"></a>14. 源码难点与流程分析</h2><pre><code>1. axios与Axios的关系
-    axios函数对应的是Axios.prototype.request方法通过bind(Axiox的实例)产生的函数
-    axios有Axios原型上的所有发特定类型请求的方法: get()/post()/put()/delete()
-    axios有Axios的实例上的所有属性: defaults/interceptors
-    后面又添加了create()/CancelToken()/all()
-
-2. axios.create()返回的对象与axios的区别
-    1). 相同: 
-        都是一个能发任意请求的函数: request(config)
-        都有发特定请求的各种方法: get()/post()/put()/delete()
-        都有默认配置和拦截器的属性: defaults/interceptors
-    2). 不同:
-        默认匹配的值不一样
-        instance没有axios后面添加的一引起方法: create()/CancelToken()/all()
-
-3. axios发请求的流程
-    1). 整体流程: request(config)  ===&gt; dispatchRequest(config) ===&gt; xhrAdapter(config)
-    2). request(config): 将请求拦截器 / dispatchRequest() / 响应拦截器 通过promise链串连起来, 返回promise
-    3). dispatchRequest(config): 转换请求数据 ===&gt; 调用xhrAdapter()发请求 ===&gt; 请求返回后转换响应数据. 返回promise
-    4). xhrAdapter(config): 创建XHR对象, 根据config进行相应设置, 发送特定请求, 并接收响应数据, 返回promise 
-</code></pre>
-<p><img src="http://vipkshttp1.wiz.cn/ks/share/resources/49c30824-dcdf-4bd0-af2a-708f490b44a1/584701e2-1d9b-4523-b9b2-0f33e838dd7f/index_files/e5692e36861bd1d2fa1735c5ab801af7.png"></p>
-<pre><code>4. axios的请求/响应拦截器是什么?
-    1). 请求拦截器: 在真正发请求前, 可以对请求进行检查或配置进行特定处理的函数, 
-               包括成功/失败的函数, 传递的必须是config
-    2). 响应拦截器: 在请求返回后, 可以对响应数据进行特定处理的函数,
-               包括成功/失败的函数, 传递的默认是response
-</code></pre>
-<p><img src="http://vipkshttp1.wiz.cn/ks/share/resources/49c30824-dcdf-4bd0-af2a-708f490b44a1/584701e2-1d9b-4523-b9b2-0f33e838dd7f/index_files/b0f95169782409e7576bc9704b93b693.png"></p>
-<pre><code>5. axios的请求/响应数据转换器是什么?
-    1). 请求转换器: 对请求头和请求体数据进行特定处理的函数
-        setContentTypeIfUnset(headers, &#39;application/json;charset=utf-8&#39;);
-        return JSON.stringify(data)
-    2). 响应转换器: 将响应体json字符串解析为js对象或数组的函数
-        response.data = JSON.parse(response.data)
-
-6. response的整体结构
-    &#123;
-        data,
-        status,
-        statusText,
-        headers,
-        config,
-        request
-    &#125;
-
-7. error的整体结构
-    &#123;
-        message,
-        request,
-        response
-    &#125;
-
-8. 如何取消未完成的请求
-    1).当配置了cancelToken对象时, 保存cancel函数
-        创建一个用于将来中断请求的cancelPromise
-        并定义了一个用于取消请求的cancel函数
-        将cancel函数传递出来
-    2.调用cancel()取消请求
-        执行cacel函数, 传入错误信息message
-        内部会让cancelPromise变为成功, 且成功的值为一个Cancel对象
-        在cancelPromise的成功回调中中断请求, 并让发请求的proimse失败, 失败的reason为Cacel对象
-</code></pre>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>Axios</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Git</title>
     <url>/2022/08/02/Git/</url>
     <content><![CDATA[<blockquote>
@@ -404,6 +233,308 @@ axios.spread(): 用来指定接收所有成功数据的回调函数的方法
       </categories>
       <tags>
         <tag>Node.js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Axios</title>
+    <url>/2022/08/02/Axios/</url>
+    <content><![CDATA[<blockquote>
+<p>git的一些基础操作</p>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="axios从入门到源码分析"><a href="#axios从入门到源码分析" class="headerlink" title="axios从入门到源码分析"></a>axios从入门到源码分析</h1><h2 id="1-前后台交互的基本过程"><a href="#1-前后台交互的基本过程" class="headerlink" title="1. 前后台交互的基本过程"></a>1. 前后台交互的基本过程</h2><pre><code>1. 前后应用从浏览器端向服务器发送HTTP请求(请求报文)
+2. 后台服务器接收到请求后, 调度服务器应用处理请求, 向浏览器端返回HTTP响应(响应报文)
+3. 浏览器端接收到响应, 解析显示响应体/调用监视回调
+</code></pre>
+<h2 id="2-HTTP请求报文"><a href="#2-HTTP请求报文" class="headerlink" title="2. HTTP请求报文"></a>2. HTTP请求报文</h2><pre><code>1. 请求行: 请求方式/url
+2. 多个请求头: 一个请求头由name:value组成, 如Host/Cookie/Content-Type头
+3. 请求体
+</code></pre>
+<h2 id="3-HTTP响应报文"><a href="#3-HTTP响应报文" class="headerlink" title="3. HTTP响应报文"></a>3. HTTP响应报文</h2><pre><code>1. 响应行: 响应状态码/对应的文本
+2. 多个响应头: 如 Content-Type / Set-Cookie 头
+3. 响应体
+</code></pre>
+<h2 id="4-post请求体文本参数格式"><a href="#4-post请求体文本参数格式" class="headerlink" title="4. post请求体文本参数格式"></a>4. post请求体文本参数格式</h2><pre><code>1. Content-Type: application/x-www-form-urlencoded;charset=utf-8
+    用于键值对参数，参数的键值用=连接, 参数之间用&amp;连接
+    例如: name=%E5%B0%8F%E6%98%8E&amp;age=12
+2. Content-Type: application/json;charset=utf-8
+    用于json字符串参数
+    例如: &#123;&quot;name&quot;: &quot;%E5%B0%8F%E6%98%8E&quot;, &quot;age&quot;: 12&#125;
+</code></pre>
+<h2 id="5-常见响应状态码"><a href="#5-常见响应状态码" class="headerlink" title="5. 常见响应状态码"></a>5. 常见响应状态码</h2><pre><code>200	OK                     请求成功。一般用于GET与POST请求
+201 Created                已创建。成功请求并创建了新的资源
+401 Unauthorized           未授权/请求要求用户的身份认证
+404 Not Found              服务器无法根据客户端的请求找到资源
+500 Internal Server Error  服务器内部错误，无法完成请求
+</code></pre>
+<h2 id="6-不同类型的请求及其作用"><a href="#6-不同类型的请求及其作用" class="headerlink" title="6. 不同类型的请求及其作用:"></a>6. 不同类型的请求及其作用:</h2><pre><code>1. GET: 从服务器端读取数据
+2. POST: 向服务器端添加新数据
+3. PUT: 更新服务器端已经数据
+4. DELETE: 删除服务器端数据
+</code></pre>
+<h2 id="7-API的分类"><a href="#7-API的分类" class="headerlink" title="7. API的分类"></a>7. API的分类</h2><pre><code>1. REST API:    restful
+    发送请求进行CRUD哪个操作由请求方式来决定
+    同一个请求路径可以进行多个操作
+    请求方式会用到GET/POST/PUT/DELETE
+2. 非REST API:   restless
+    请求方式不决定请求的CRUD操作
+    一个请求路径只对应一个操作
+    一般只有GET/POST
+测试: 可以使用json-server快速搭建模拟的rest api 接口
+</code></pre>
+<h2 id="8-理解XHR"><a href="#8-理解XHR" class="headerlink" title="8. 理解XHR"></a>8. 理解XHR</h2><pre><code>使用XMLHttpRequest (XHR)对象可以与服务器交互, 也就是发送ajax请求
+前端可以获取到数据，而无需让整个的页面刷新。
+这使得Web页面可以只更新页面的局部，而不影响用户的操作。
+</code></pre>
+<h2 id="9-XHR的基本使用"><a href="#9-XHR的基本使用" class="headerlink" title="9. XHR的基本使用"></a>9. XHR的基本使用</h2><ol>
+<li><p>步骤：</p>
+<p>（1）创建xhr对象</p>
+<p>（2）调用xhr.open()函数</p>
+<p>（3）设置Content-Type属性</p>
+<p>（4）调用xhr.send()函数</p>
+<p>（5）监听xhr.onreadStatechange()事件</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> xhr=<span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>()</span><br><span class="line"> </span><br><span class="line">xhr.<span class="title function_">open</span>(<span class="string">&#x27;POST&#x27;</span>,<span class="string">&#x27;http://maowei.api.tp6:8000/user&#x27;</span>)</span><br><span class="line"></span><br><span class="line">xhr.<span class="title function_">setRequestHeader</span>(<span class="string">&#x27;Content-Type&#x27;</span>,<span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span>)</span><br><span class="line"> </span><br><span class="line">xhr.<span class="title function_">send</span>(<span class="string">&#x27;id=2&#x27;</span>)</span><br><span class="line"> </span><br><span class="line">xhr.<span class="property">onreadystatechange</span>=<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">if</span> (xhr.<span class="property">readyState</span>===<span class="number">4</span> || xhr.<span class="property">status</span>===<span class="number">200</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(xhr.<span class="property">responseText</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="10-区别ajax请求与一般HTTP请求"><a href="#10-区别ajax请求与一般HTTP请求" class="headerlink" title="10. 区别ajax请求与一般HTTP请求"></a>10. 区别ajax请求与一般HTTP请求</h2><pre><code>ajax请求是一种特别的http请求: 只有通过XHR/fetch发送的是ajax请求, 其它都是一般HTTP请求
+对服务器端来说, 没有任何区别, 区别在浏览器端
+浏览器端发请求: 只有XHR或fetch发出的才是ajax请求, 其它所有的都是非ajax请求
+浏览器端接收到响应
+    一般请求: 浏览器一般会直接显示响应体数据, 也就是我们常说的刷新/跳转页面
+    ajax请求: 浏览器不会对界面进行任何更新操作, 只是调用监视的回调函数并传入响应相关数据
+</code></pre>
+<h2 id="11-使用XHR封装一个发ajax请求的通用函数"><a href="#11-使用XHR封装一个发ajax请求的通用函数" class="headerlink" title="11. 使用XHR封装一个发ajax请求的通用函数"></a>11. 使用XHR封装一个发ajax请求的通用函数</h2><pre><code>函数的返回值为promise, 成功的结果为response, 异常的结果为error
+能处理多种类型的请求: GET/POST/PUT/DELETE
+函数的参数为一个配置对象: url/method/params/data
+响应json数据自动解析为了js
+</code></pre>
+<h2 id="12-axios的特点"><a href="#12-axios的特点" class="headerlink" title="12. axios的特点"></a>12. axios的特点</h2><pre><code>基于promise的封装XHR的异步ajax请求库
+浏览器端/node端都可以使用
+支持请求／响应拦截器
+支持请求取消
+请求/响应数据转换
+批量发送多个请求
+</code></pre>
+<h2 id="13-axios常用语法"><a href="#13-axios常用语法" class="headerlink" title="13. axios常用语法"></a>13. axios常用语法</h2><pre><code>axios(config): 通用/最本质的发任意类型请求的方式
+axios(url[, config]): 可以只指定url发get请求
+axios.request(config): 等同于axios(config)
+axios.get(url[, config]): 发get请求
+axios.delete(url[, config]): 发delete请求
+axios.post(url[, data, config]): 发post请求
+axios.put(url[, data, config]): 发put请求
+
+axios.defaults.xxx: 请求的默认全局配置
+axios.interceptors.request.use(): 添加请求拦截器
+axios.interceptors.response.use(): 添加响应拦截器
+
+axios.create([config]): 创建一个新的axios(它没有下面的功能)
+
+axios.Cancel(): 用于创建取消请求的错误对象
+axios.CancelToken(): 用于创建取消请求的token对象
+axios.isCancel(): 是否是一个取消请求的错误
+axios.all(promises): 用于批量执行多个异步请求
+axios.spread(): 用来指定接收所有成功数据的回调函数的方法
+</code></pre>
+<h2 id="14-源码难点与流程分析"><a href="#14-源码难点与流程分析" class="headerlink" title="14. 源码难点与流程分析"></a>14. 源码难点与流程分析</h2><pre><code>1. axios与Axios的关系
+    axios函数对应的是Axios.prototype.request方法通过bind(Axiox的实例)产生的函数
+    axios有Axios原型上的所有发特定类型请求的方法: get()/post()/put()/delete()
+    axios有Axios的实例上的所有属性: defaults/interceptors
+    后面又添加了create()/CancelToken()/all()
+
+2. axios.create()返回的对象与axios的区别
+    1). 相同: 
+        都是一个能发任意请求的函数: request(config)
+        都有发特定请求的各种方法: get()/post()/put()/delete()
+        都有默认配置和拦截器的属性: defaults/interceptors
+    2). 不同:
+        默认匹配的值不一样
+        instance没有axios后面添加的一引起方法: create()/CancelToken()/all()
+
+3. axios发请求的流程
+    1). 整体流程: request(config)  ===&gt; dispatchRequest(config) ===&gt; xhrAdapter(config)
+    2). request(config): 将请求拦截器 / dispatchRequest() / 响应拦截器 通过promise链串连起来, 返回promise
+    3). dispatchRequest(config): 转换请求数据 ===&gt; 调用xhrAdapter()发请求 ===&gt; 请求返回后转换响应数据. 返回promise
+    4). xhrAdapter(config): 创建XHR对象, 根据config进行相应设置, 发送特定请求, 并接收响应数据, 返回promise 
+</code></pre>
+<p><img src="http://vipkshttp1.wiz.cn/ks/share/resources/49c30824-dcdf-4bd0-af2a-708f490b44a1/584701e2-1d9b-4523-b9b2-0f33e838dd7f/index_files/e5692e36861bd1d2fa1735c5ab801af7.png"></p>
+<pre><code>4. axios的请求/响应拦截器是什么?
+    1). 请求拦截器: 在真正发请求前, 可以对请求进行检查或配置进行特定处理的函数, 
+               包括成功/失败的函数, 传递的必须是config
+    2). 响应拦截器: 在请求返回后, 可以对响应数据进行特定处理的函数,
+               包括成功/失败的函数, 传递的默认是response
+</code></pre>
+<p><img src="http://vipkshttp1.wiz.cn/ks/share/resources/49c30824-dcdf-4bd0-af2a-708f490b44a1/584701e2-1d9b-4523-b9b2-0f33e838dd7f/index_files/b0f95169782409e7576bc9704b93b693.png"></p>
+<pre><code>5. axios的请求/响应数据转换器是什么?
+    1). 请求转换器: 对请求头和请求体数据进行特定处理的函数
+        setContentTypeIfUnset(headers, &#39;application/json;charset=utf-8&#39;);
+        return JSON.stringify(data)
+    2). 响应转换器: 将响应体json字符串解析为js对象或数组的函数
+        response.data = JSON.parse(response.data)
+
+6. response的整体结构
+    &#123;
+        data,
+        status,
+        statusText,
+        headers,
+        config,
+        request
+    &#125;
+
+7. error的整体结构
+    &#123;
+        message,
+        request,
+        response
+    &#125;
+
+8. 如何取消未完成的请求
+    1).当配置了cancelToken对象时, 保存cancel函数
+        创建一个用于将来中断请求的cancelPromise
+        并定义了一个用于取消请求的cancel函数
+        将cancel函数传递出来
+    2.调用cancel()取消请求
+        执行cacel函数, 传入错误信息message
+        内部会让cancelPromise变为成功, 且成功的值为一个Cancel对象
+        在cancelPromise的成功回调中中断请求, 并让发请求的proimse失败, 失败的reason为Cacel对象
+</code></pre>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>Axios</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Promise</title>
+    <url>/2022/08/02/Promise/</url>
+    <content><![CDATA[<blockquote>
+<p>Promise学习，以及手写Promise</p>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="Promise深入-自定义Promise"><a href="#Promise深入-自定义Promise" class="headerlink" title="Promise深入 + 自定义Promise"></a>Promise深入 + 自定义Promise</h1><h2 id="1-准备"><a href="#1-准备" class="headerlink" title="1. 准备"></a>1. 准备</h2><h3 id="1-1-函数对象与实例对象"><a href="#1-1-函数对象与实例对象" class="headerlink" title="1.1. 函数对象与实例对象"></a>1.1. 函数对象与实例对象</h3><pre><code>1. 函数对象: 将函数作为对象使用时, 简称为函数对象
+2. 实例对象: new 函数产生的对象, 简称为对象
+</code></pre>
+<h3 id="1-2-回调函数的分类"><a href="#1-2-回调函数的分类" class="headerlink" title="1.2. 回调函数的分类"></a>1.2. 回调函数的分类</h3><pre><code>1. 同步回调: 
+    理解: 立即执行, 完全执行完了才结束, 不会放入回调队列中
+    例子: 数组遍历相关的回调函数 / Promise的excutor函数
+2. 异步回调: 
+    理解: 不会立即执行, 会放入回调队列中将来执行
+    例子: 定时器回调 / ajax回调 / Promise的成功|失败的回调
+</code></pre>
+<h3 id="1-3-JS中的Error"><a href="#1-3-JS中的Error" class="headerlink" title="1.3. JS中的Error"></a>1.3. JS中的Error</h3><pre><code>1. 错误的类型
+    Error: 所有错误的父类型
+    ReferenceError: 引用的变量不存在
+    TypeError: 数据类型不正确的错误
+    RangeError: 数据值不在其所允许的范围内
+    SyntaxError: 语法错误
+2. 错误处理
+    捕获错误: try ... catch
+    抛出错误: throw error
+3. 错误对象
+    message属性: 错误相关信息
+    stack属性: 函数调用栈记录信息
+</code></pre>
+<h2 id="2-Promise的理解和使用"><a href="#2-Promise的理解和使用" class="headerlink" title="2. Promise的理解和使用"></a>2. Promise的理解和使用</h2><h3 id="2-1-Promise是什么"><a href="#2-1-Promise是什么" class="headerlink" title="2.1. Promise是什么?"></a>2.1. Promise是什么?</h3><pre><code>1.抽象表达: 
+    Promise是JS中进行异步编程的新的解决方案(旧的是谁?)
+2.具体表达:
+    从语法上来说: Promise是一个构造函数
+    从功能上来说: promise对象用来封装一个异步操作并可以获取其结果
+3. promise的状态改变(只有2种, 只能改变一次)
+    pending变为resolved
+    pending变为rejected
+4. promise的基本流程
+</code></pre>
+<p><img src="http://vipkshttp1.wiz.cn/ks/share/resources/49c30824-dcdf-4bd0-af2a-708f490b44a1/92b8cbfb-a474-4859-943b-6048e9dc66f6/index_files/9b2b980e2959c4f996cafddb03fa5d4d.png" alt="promise基本流程"></p>
+<h3 id="2-2-为什么要用Promise"><a href="#2-2-为什么要用Promise" class="headerlink" title="2.2. 为什么要用Promise?"></a>2.2. 为什么要用Promise?</h3><ol>
+<li>指定回调函数的方式更加灵活: 可以在请求发出甚至结束后指定回调函数<ul>
+<li>使用纯回调函数：<ul>
+<li>在执行异步操作之前就必须指定回调函数；</li>
+</ul>
+</li>
+<li>使用promise：<ul>
+<li>可以随时去绑定回调函数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>支持链式调用, 可以解决回调地狱问题（不便于阅读、不便于处理异常）<ul>
+<li>使用纯回调函数：<ul>
+<li>当回调函数嵌套调用，外部回调函数异步执行的结果时嵌套的回调函数执行的条件时，回产生回调地狱的问题</li>
+</ul>
+</li>
+<li>使用promise：<ul>
+<li>promise支持链式调用，可以通过cath()方法处理异常</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-3-如何使用Promise"><a href="#2-3-如何使用Promise" class="headerlink" title="2.3. 如何使用Promise?"></a>2.3. 如何使用Promise?</h3><pre><code>1. 主要API
+    Promise构造函数: Promise (excutor) &#123;&#125;
+    Promise.prototype.then方法: (onResolved, onRejected) =&gt; &#123;&#125;
+    Promise.prototype.catch方法: (onRejected) =&gt; &#123;&#125;
+    Promise.resolve方法: (value) =&gt; &#123;&#125;
+    Promise.reject方法: (reason) =&gt; &#123;&#125;
+    Promise.all方法: (promises) =&gt; &#123;&#125;
+    Promise.race方法: (promises) =&gt; &#123;&#125;
+2. 几个重要问题
+    如何改变promise的状态?
+    一个promise指定多个成功/失败回调函数, 都会调用吗?
+    promise.then()返回的新promise的结果状态由什么决定?
+    改变promise状态和指定回调函数谁先谁后?
+    promise如何串连多个操作任务?
+    promise异常传(穿)透?
+    中断promise链
+</code></pre>
+<h2 id="3-自定义Promise"><a href="#3-自定义Promise" class="headerlink" title="3. 自定义Promise"></a>3. 自定义Promise</h2><ol>
+<li>定义整体结构（Promise的主要API）</li>
+<li>Promise构造函数的实现</li>
+<li>promise.then()&#x2F;catch()的实现</li>
+<li>Promise.resolve()&#x2F;reject()的实现</li>
+<li>Promise.all&#x2F;race()的实</li>
+<li>Promise.resolveDelay()&#x2F;rejectDelay()的实现</li>
+<li>ES6 class版本</li>
+</ol>
+<h2 id="4-async与await"><a href="#4-async与await" class="headerlink" title="4. async与await"></a>4. async与await</h2><pre><code>1. async 函数
+    函数的返回值为promise对象
+    promise对象的结果由async函数执行的返回值决定
+   
+2. await 表达式
+    await右侧的表达式一般为promise对象, 但也可以是其它的值
+    如果表达式是promise对象, await返回的是promise成功的值
+    如果表达式是其它值, 直接将此值作为await的返回值
+
+3. 注意:
+    await必须写在async函数中, 但async函数中可以没有await
+    如果await的promise失败了, 就会抛出异常, 需要通过try...catch来捕获处理
+</code></pre>
+<h2 id="5-JS异步之宏队列与微队列"><a href="#5-JS异步之宏队列与微队列" class="headerlink" title="5. JS异步之宏队列与微队列"></a>5. JS异步之宏队列与微队列</h2><p><img src="http://vipkshttp1.wiz.cn/ks/share/resources/49c30824-dcdf-4bd0-af2a-708f490b44a1/92b8cbfb-a474-4859-943b-6048e9dc66f6/index_files/60b9ff398449db2dcfef9197e2187ae6.png" alt="宏队列与微队列"></p>
+<pre><code>1. 宏列队: 用来保存待执行的宏任务(回调), 比如: 定时器回调/DOM事件回调/ajax回调
+2. 微列队: 用来保存待执行的微任务(回调), 比如: promise的回调/MutationObserver的回调
+3. JS执行时会区别这2个队列
+    JS引擎首先必须先执行所有的初始化同步任务代码
+    每次准备取出第一个宏任务执行前, 都要将所有的微任务一个一个取出来执行
+</code></pre>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>Promise</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo-next优化</title>
+    <url>/2022/08/03/hexo-next%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo next</tag>
       </tags>
   </entry>
   <entry>
@@ -1129,14 +1260,33 @@ axios.spread(): 用来指定接收所有成功数据的回调函数的方法
       </tags>
   </entry>
   <entry>
-    <title>hexo-next优化</title>
-    <url>/2022/08/03/hexo-next%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[]]></content>
+    <title>反转链表</title>
+    <url>/2022/08/08/%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/</url>
+    <content><![CDATA[<blockquote>
+<p>面试必刷TOP101 ——————链表</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="1-反转链表"><a href="#1-反转链表" class="headerlink" title="1. 反转链表"></a>1. 反转链表</h2><p>解题思路：</p>
+<ol>
+<li>因为链表结尾是 null，所以让 pre 的值是 null, pHead 就表示我们的头部</li>
+<li>因为 pHead 的 next 成员马上就要指向 pre, 如果不保存 pHead 的下一个节点就会使其丢失，所以通过临时变量 t 保存它</li>
+<li>让 pHead的 next 成员指向 pre</li>
+<li>pre 移动到 pHead 的位置，pHead 移动到 t 的位置，此时我们就回到了第一步中的情况</li>
+<li>保持这个循环不变式直到 pHead移动到原链表结尾我们就获得了翻转之后的链表。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*function ListNode(x)&#123;</span></span><br><span class="line"><span class="comment">    this.val = x;</span></span><br><span class="line"><span class="comment">    this.next = null;</span></span><br><span class="line"><span class="comment">&#125;*/</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">ReverseList</span>(<span class="params">pHead</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> pre = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">let</span> t = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">while</span>(pHead)&#123;</span><br><span class="line">        t = pHead.<span class="property">next</span></span><br><span class="line">        pHead.<span class="property">next</span> = pre</span><br><span class="line">        pre = pHead</span><br><span class="line">        pHead = t</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pre</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="title class_">ReverseList</span> : <span class="title class_">ReverseList</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-链表内指定区间反转"><a href="#2-链表内指定区间反转" class="headerlink" title="2. 链表内指定区间反转"></a>2. 链表内指定区间反转</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * function ListNode(x)&#123;</span></span><br><span class="line"><span class="comment"> *   this.val = x;</span></span><br><span class="line"><span class="comment"> *   this.next = null;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * </span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> head ListNode类 </span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> m int整型 </span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> n int整型 </span></span><br><span class="line"><span class="comment">  * <span class="doctag">@return</span> ListNode类</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">reverseBetween</span>(<span class="params"> head ,  m ,  n </span>) &#123;</span><br><span class="line">    <span class="comment">// 定义一个头节点让他的next指向head（m可能为1）</span></span><br><span class="line">    <span class="keyword">let</span> dummy = <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line">    dummy.<span class="property">next</span> = head;</span><br><span class="line">    <span class="comment">// current:第m个节点的上一个节点</span></span><br><span class="line">    <span class="keyword">let</span> current = dummy;</span><br><span class="line">    <span class="comment">// 找到第m个节点，并用current标识他的上一个节点</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;m-<span class="number">1</span>; i++) &#123;</span><br><span class="line">        current = current.<span class="property">next</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// temp中转变量标识交换的头节点</span></span><br><span class="line">    <span class="keyword">let</span> temp = current.<span class="property">next</span>;</span><br><span class="line">    <span class="comment">// 从第m个节点开始，两两进行交互，直到交换m-n次</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;n-m; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> next = temp.<span class="property">next</span>;</span><br><span class="line">        temp.<span class="property">next</span> = next.<span class="property">next</span>;</span><br><span class="line">        next.<span class="property">next</span> = current.<span class="property">next</span>;</span><br><span class="line">        current.<span class="property">next</span> = next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dummy.<span class="property">next</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    reverseBetween : reverseBetween</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+]]></content>
       <categories>
-        <category>hexo</category>
+        <category>数据结构和算法</category>
       </categories>
       <tags>
-        <tag>hexo next</tag>
+        <tag>数据结构和算法 链表</tag>
       </tags>
   </entry>
   <entry>
@@ -1190,126 +1340,6 @@ axios.spread(): 用来指定接收所有成功数据的回调函数的方法
       </categories>
       <tags>
         <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Promise</title>
-    <url>/2022/08/02/Promise/</url>
-    <content><![CDATA[<blockquote>
-<p>Promise学习，以及手写Promise</p>
-</blockquote>
-<span id="more"></span>
-
-<h1 id="Promise深入-自定义Promise"><a href="#Promise深入-自定义Promise" class="headerlink" title="Promise深入 + 自定义Promise"></a>Promise深入 + 自定义Promise</h1><h2 id="1-准备"><a href="#1-准备" class="headerlink" title="1. 准备"></a>1. 准备</h2><h3 id="1-1-函数对象与实例对象"><a href="#1-1-函数对象与实例对象" class="headerlink" title="1.1. 函数对象与实例对象"></a>1.1. 函数对象与实例对象</h3><pre><code>1. 函数对象: 将函数作为对象使用时, 简称为函数对象
-2. 实例对象: new 函数产生的对象, 简称为对象
-</code></pre>
-<h3 id="1-2-回调函数的分类"><a href="#1-2-回调函数的分类" class="headerlink" title="1.2. 回调函数的分类"></a>1.2. 回调函数的分类</h3><pre><code>1. 同步回调: 
-    理解: 立即执行, 完全执行完了才结束, 不会放入回调队列中
-    例子: 数组遍历相关的回调函数 / Promise的excutor函数
-2. 异步回调: 
-    理解: 不会立即执行, 会放入回调队列中将来执行
-    例子: 定时器回调 / ajax回调 / Promise的成功|失败的回调
-</code></pre>
-<h3 id="1-3-JS中的Error"><a href="#1-3-JS中的Error" class="headerlink" title="1.3. JS中的Error"></a>1.3. JS中的Error</h3><pre><code>1. 错误的类型
-    Error: 所有错误的父类型
-    ReferenceError: 引用的变量不存在
-    TypeError: 数据类型不正确的错误
-    RangeError: 数据值不在其所允许的范围内
-    SyntaxError: 语法错误
-2. 错误处理
-    捕获错误: try ... catch
-    抛出错误: throw error
-3. 错误对象
-    message属性: 错误相关信息
-    stack属性: 函数调用栈记录信息
-</code></pre>
-<h2 id="2-Promise的理解和使用"><a href="#2-Promise的理解和使用" class="headerlink" title="2. Promise的理解和使用"></a>2. Promise的理解和使用</h2><h3 id="2-1-Promise是什么"><a href="#2-1-Promise是什么" class="headerlink" title="2.1. Promise是什么?"></a>2.1. Promise是什么?</h3><pre><code>1.抽象表达: 
-    Promise是JS中进行异步编程的新的解决方案(旧的是谁?)
-2.具体表达:
-    从语法上来说: Promise是一个构造函数
-    从功能上来说: promise对象用来封装一个异步操作并可以获取其结果
-3. promise的状态改变(只有2种, 只能改变一次)
-    pending变为resolved
-    pending变为rejected
-4. promise的基本流程
-</code></pre>
-<p><img src="http://vipkshttp1.wiz.cn/ks/share/resources/49c30824-dcdf-4bd0-af2a-708f490b44a1/92b8cbfb-a474-4859-943b-6048e9dc66f6/index_files/9b2b980e2959c4f996cafddb03fa5d4d.png" alt="promise基本流程"></p>
-<h3 id="2-2-为什么要用Promise"><a href="#2-2-为什么要用Promise" class="headerlink" title="2.2. 为什么要用Promise?"></a>2.2. 为什么要用Promise?</h3><ol>
-<li>指定回调函数的方式更加灵活: 可以在请求发出甚至结束后指定回调函数<ul>
-<li>使用纯回调函数：<ul>
-<li>在执行异步操作之前就必须指定回调函数；</li>
-</ul>
-</li>
-<li>使用promise：<ul>
-<li>可以随时去绑定回调函数</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>支持链式调用, 可以解决回调地狱问题（不便于阅读、不便于处理异常）<ul>
-<li>使用纯回调函数：<ul>
-<li>当回调函数嵌套调用，外部回调函数异步执行的结果时嵌套的回调函数执行的条件时，回产生回调地狱的问题</li>
-</ul>
-</li>
-<li>使用promise：<ul>
-<li>promise支持链式调用，可以通过cath()方法处理异常</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="2-3-如何使用Promise"><a href="#2-3-如何使用Promise" class="headerlink" title="2.3. 如何使用Promise?"></a>2.3. 如何使用Promise?</h3><pre><code>1. 主要API
-    Promise构造函数: Promise (excutor) &#123;&#125;
-    Promise.prototype.then方法: (onResolved, onRejected) =&gt; &#123;&#125;
-    Promise.prototype.catch方法: (onRejected) =&gt; &#123;&#125;
-    Promise.resolve方法: (value) =&gt; &#123;&#125;
-    Promise.reject方法: (reason) =&gt; &#123;&#125;
-    Promise.all方法: (promises) =&gt; &#123;&#125;
-    Promise.race方法: (promises) =&gt; &#123;&#125;
-2. 几个重要问题
-    如何改变promise的状态?
-    一个promise指定多个成功/失败回调函数, 都会调用吗?
-    promise.then()返回的新promise的结果状态由什么决定?
-    改变promise状态和指定回调函数谁先谁后?
-    promise如何串连多个操作任务?
-    promise异常传(穿)透?
-    中断promise链
-</code></pre>
-<h2 id="3-自定义Promise"><a href="#3-自定义Promise" class="headerlink" title="3. 自定义Promise"></a>3. 自定义Promise</h2><ol>
-<li>定义整体结构（Promise的主要API）</li>
-<li>Promise构造函数的实现</li>
-<li>promise.then()&#x2F;catch()的实现</li>
-<li>Promise.resolve()&#x2F;reject()的实现</li>
-<li>Promise.all&#x2F;race()的实</li>
-<li>Promise.resolveDelay()&#x2F;rejectDelay()的实现</li>
-<li>ES6 class版本</li>
-</ol>
-<h2 id="4-async与await"><a href="#4-async与await" class="headerlink" title="4. async与await"></a>4. async与await</h2><pre><code>1. async 函数
-    函数的返回值为promise对象
-    promise对象的结果由async函数执行的返回值决定
-   
-2. await 表达式
-    await右侧的表达式一般为promise对象, 但也可以是其它的值
-    如果表达式是promise对象, await返回的是promise成功的值
-    如果表达式是其它值, 直接将此值作为await的返回值
-
-3. 注意:
-    await必须写在async函数中, 但async函数中可以没有await
-    如果await的promise失败了, 就会抛出异常, 需要通过try...catch来捕获处理
-</code></pre>
-<h2 id="5-JS异步之宏队列与微队列"><a href="#5-JS异步之宏队列与微队列" class="headerlink" title="5. JS异步之宏队列与微队列"></a>5. JS异步之宏队列与微队列</h2><p><img src="http://vipkshttp1.wiz.cn/ks/share/resources/49c30824-dcdf-4bd0-af2a-708f490b44a1/92b8cbfb-a474-4859-943b-6048e9dc66f6/index_files/60b9ff398449db2dcfef9197e2187ae6.png" alt="宏队列与微队列"></p>
-<pre><code>1. 宏列队: 用来保存待执行的宏任务(回调), 比如: 定时器回调/DOM事件回调/ajax回调
-2. 微列队: 用来保存待执行的微任务(回调), 比如: promise的回调/MutationObserver的回调
-3. JS执行时会区别这2个队列
-    JS引擎首先必须先执行所有的初始化同步任务代码
-    每次准备取出第一个宏任务执行前, 都要将所有的微任务一个一个取出来执行
-</code></pre>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>Promise</tag>
       </tags>
   </entry>
 </search>
